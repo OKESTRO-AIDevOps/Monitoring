@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<appender name="overwriteFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <springProfile name="local">
+        <file>./logs/services/openstack-api/openstack_api.log</file>
+    </springProfile>
+    <springProfile name="dev">
+        <file>./logs/services/openstack-api/openstack_api.log</file>
+    </springProfile>
+    <!--
+        %d{yyyyMMdd HH:mm:ss.SSS} - 날짜
+        %thread - 어떤 스레드에서 실행한 것인지
+        %-5level - 로깅 레벨
+        %logger{35} - 어떤 클래스의 로거가 실행된 건지
+        %msg - 메세지
+        %n - 줄바꿈
+    -->
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+        <Pattern>%d{yyyy:MM:dd HH:mm:ss.SSS} %-5level --- [%thread] %logger{35} : %msg %n</Pattern>
+        <charset>UTF-8</charset>
+    </encoder>
+
+    <!-- 10MB가 넘어가면 새로운 압축파일이 생성 -->
+    <triggeringPolicy
+            class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+        <MaxFileSize>10MB</MaxFileSize>
+    </triggeringPolicy>
+
+    <!-- 파일을 덮어쓰는 정책 -->
+    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+        <springProfile name="local">
+            <FileNamePattern>./logs/services/openstack-api/openstack_api_%i.log</FileNamePattern>
+        </springProfile>
+        <springProfile name="dev">
+            <FileNamePattern>./logs/services/openstack-api/openstack_api_%i.log</FileNamePattern>
+        </springProfile>
+        <!--
+            10MB단위로 로그 압축 파일이 생성된다. (1 ~ 10)
+            10개가 넘어가면 오래된순으로 덮어쓰기 됩니다.
+        -->
+        <MinIndex>1</MinIndex>
+        <MaxIndex>10</MaxIndex>
+    </rollingPolicy>
+</appender>

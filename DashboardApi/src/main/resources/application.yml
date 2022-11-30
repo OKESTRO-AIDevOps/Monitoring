@@ -1,0 +1,216 @@
+server:
+    port: 8082
+    ssl:
+        enabled: false
+        key-store: classpath:flowerduet.p12
+        key-store-type: PKCS12
+        key-store-password: okestro2021
+        key-alias: flowerduet
+    servlet:
+        context-path: /api/v1
+
+
+management:
+    health:
+        elasticsearch:
+            enabled: false
+
+
+
+spring:
+    security:
+        user:
+            name: test
+            password: test
+    #    profiles:
+#        active: @activeProfile@
+    elasticsearch:
+        rest:
+#            uris: 36.243.190.71:9200
+#            uris: 36.243.190.202:9200
+             uris: 100.0.0.163:9200
+#            uris: localhost:9200
+    autoconfigure:
+        exclude:
+            - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+            - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+#    h2:
+#        console:
+#            enabled: true  # H2 웹 콘솔을 사용하겠다는 옵션
+#            path: /test_db # 웹 콘솔 경로
+#    datasource:
+#        driver-class-name: org.h2.Driver
+#        username: sa
+#        password:
+    datasource:
+        driver-class-name: org.mariadb.jdbc.Driver
+        url: jdbc:mysql://100.0.0.100:3306/SYMPHONY
+        username: symphony
+        password: symphony
+        jdbc-url: jdbc:mysql://100.0.0.100:3306/SYMPHONY
+
+    ## Quarz
+#    quartz:
+#        job-store-type: jdbc
+#        auto-startup: false
+#        wait-for-jobs-to-complete-on-shutdown: false
+#        properties:
+#            org.quartz.scheduler.instanceName: quartzHabanera
+#            org.quartz.scheduler.instanceId: AUTO
+#            org.quartz.scheduler.instanceIdGenerator.class: scm.engine.CustomInstanceIdGenerator
+#            org.quartz.threadPool.threadCount: 20
+#            org.quartz.jobStore.class: org.quartz.impl.jdbcjobstore.JobStoreTX
+#            org.quartz.jobStore.driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+#            org.quartz.jobStore.useProperties: true
+#            org.quartz.jobStore.misfireThreshold: 60000
+#            org.quartz.jobStore.tablePrefix: QRTZ_
+#            org.quartz.jobStore.isClustered: true
+#            org.quartz.plugin.shutdownHook.class: org.quartz.plugins.management.ShutdownHookPlugin
+#            org.quartz.plugin.shutdownHook.cleanShutdown: TRUE
+#        jdbc:
+#            initialize-schema: never
+
+    messages:
+        always-use-message-format: false
+        basename: message/messages
+        encoding: UTF-8
+    # data source
+#    datasource:
+#        driver-class-name: org.mariadb.jdbc.Driver
+#        url: jdbc:mysql://36.243.190.245:3306/SYMPHONY
+#        username: symphony
+#        password: symphony
+#        jdbc-url: jdbc:mysql://36.243.190.245:3306/SYMPHONY
+
+    ##### data source 2 (openstack-mariaDB) #####
+#    datasource-openstack-maria:
+#        driver-class-name: org.mariadb.jdbc.Driver
+#        jdbc-url: jdbc:mysql://89.98.70.115:3306/
+#        username: root
+#        password: olQTlEulB9MCJUMzA9zhXpTwJb5489GoCnW658Pw
+    # jpa
+    jpa:
+        properties:
+            hibernate:
+                show_sql: true
+                format_sql: true
+                use_sql_comments: true
+#        open-in-view: false
+        generate-ddl: false
+        database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+        hibernate:
+            # none : 아무작업안함. , create : 테이블 생성, update : 없으면 생성 있으면 그대로.
+            ddl-auto: none
+            naming:
+                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+    servlet:
+        multipart:
+            max-request-size: 5GB
+            max-file-size: 5GB
+            enabled: true
+#    h2:
+#        console:
+#            enabled: true
+#        platform: h2
+#        driverClassName: org.h2.Driver
+#        url: jdbc:h2:mem:testdb
+#        username: sa
+#        password:
+
+
+
+#    redis:
+#        host: 36.243.190.245
+#        host: ${iaas.redis.host}
+#        port: 6379
+#        port: ${iaas.redis.port}
+# version redis - 6.0.8
+platform:
+    audit:
+        admin:
+            api:
+                url: http://localhost:8080/admin/api
+
+# 콘솔 창에 출력되는 로깅 메세지를 색으로 구분해서 출력
+#  output:
+#    ansi:
+#      enabled: always
+
+# log
+logging:
+    level:
+        #    org.springframework: debug
+        com: debug
+        org:
+            springframework: debug
+            hibernate:
+                type:
+                    descriptor:
+                        sql: trace
+
+
+config:
+    default:
+#        index: test_beats_metric_2021_02_02
+#        index: hab-metric-demo24-1-2021.02.09
+#        index: sym-metric-process-2021.04.02
+        index: ost-metric-hypervisor-2021-04-14
+
+    openstack:
+        domain: Default
+#        user: admin_test
+#        passwd: okestro2018
+#        endpoint: http://100.0.0.132:5000/v3
+        user: admin
+        passwd: okestro2018
+#        endpoint: https://89.98.80.115:5000/v3
+        endpoint : http://100.0.0.189:5000/v3
+        cpuover : 8
+
+
+
+#=======================
+#spring:
+#    profiles:
+#        active: @activeProfile@
+#    elasticsearch:
+#        rest:
+#            uris: 36.243.190.71:9200
+
+#server:
+#    port: 8081
+#    servlet:
+#        context-path: /symphony/dashboard/api
+#
+##spring:
+##    elasticsearch:
+##        rest:
+##            uris: 36.243.190.71:9200
+#
+#management:
+#    health:
+#        elasticsearch:
+#            enabled: false
+## log
+#logging:
+#    level:
+#        org.springframework: debug
+#        com.okestro.symphony.dashboard: debug
+#
+#config:
+#    default:
+##        index: test_beats_metric_2021_02_02
+#        index: hab-metric-demo24-1-2021.02.09
+#    openstack:
+#        domain: Default
+#        user: admin_test
+#        passwd: okestro2018
+#        endpoint: http://100.0.0.132:5000/v3
+
+
+
+
+
+
+

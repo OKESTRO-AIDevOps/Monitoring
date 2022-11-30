@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Developed by dy.choi@okestro.com on 2020-08-03
+  ~ Last modified 2020-08-03 16:21:04
+  -->
+
+<!--
+  ~ Developed by dy.choi@okestro.com on 2020-08-03
+  ~ Last modified 2020-08-03 16:07:15
+  -->
+
+<!--
+  ~ Developed by dy.choi@okestro.com on 2020-08-03
+  ~ Last modified 2020-08-03 10:53:21
+  -->
+
+<!--
+  ~ Developed by dy.choi@okestro.com on 2020-08-03
+  ~ Last modified 2020-08-03 10:51:43
+  -->
+
+
+<!--
+    콘솔에서 표시할 로그 포맷 설정
+-->
+<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+        <charset>UTF-8</charset>
+        <!--
+            %d{yyyyMMdd HH:mm:ss.SSS} - 날짜
+            %thread - 어떤 스레드에서 실행한 것인지
+            %-5level - 로깅 레벨
+            %logger{35} - 어떤 클래스의 로거가 실행된 건지
+            %msg - 메세지
+            %n - 줄바꿈
+        -->
+        <pattern>%d{yyyy:MM:dd HH:mm:ss.SSS} %-5level --- [%thread] %logger{36} : %msg %n</pattern>
+    </encoder>
+</appender>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<appender name="dailyRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <!--
+            하루에 하나씩 생성되는 설정(날짜)
+       -->
+        <springProfile name="local">
+            <fileNamePattern>./logs/services/openstack-api/openstack_api_log_%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+        </springProfile>
+        <springProfile name="dev">
+            <fileNamePattern>./logs/services/openstack-api/openstack_api_log_%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+        </springProfile>
+        <!--
+            MinIndex가 1이고, MaxIndex가 10이므로, 위의 파일 이름 패턴에 따라 아래의 로그 파일이 생길 것이다.
+           user_api_log_2020-08-03-0.log   user_api_log_2020-08-03-1.log  .... user_api_log_202  0-08-03-9.log
+            이 상태에서 또 10KB가 넘으면 logexample2.1.log.zip이 된다.
+        -->
+        <!--
+            maxHistory를 30일로 설정
+            30일이 지난 로그들은 삭제
+         -->
+        <maxHistory>30</maxHistory>
+        <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <!--
+         maxFileSize를 100MB로 설정해서 로그 파일 용량이 100MB를 초과하면
+         자동으로 인덱스가 증가하면서 새로운 로그 파일이 생성된다. (시작은 0)
+         -->
+            <maxFileSize>10MB</maxFileSize>
+        </timeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+    <encoder>
+        <charset>UTF-8</charset>
+        <!--
+            %d{yyyyMMdd HH:mm:ss.SSS} - 날짜
+            %thread - 어떤 스레드에서 실행한 것인지
+            %-5level - 로깅 레벨
+            %logger{35} - 어떤 클래스의 로거가 실행된 건지
+            %msg - 메세지
+            %n - 줄바꿈
+        -->
+        <pattern>%d{yyyy:MM:dd HH:mm:ss.SSS} %-5level --- [%thread] %logger{35} : %msg %n</pattern>
+    </encoder>
+</appender>

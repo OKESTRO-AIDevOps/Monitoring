@@ -1,0 +1,71 @@
+# server port
+server:
+  port: 18084
+  ssl:
+    enabled: false
+    key-store: classpath:flowerduet.p12
+    key-store-type: PKCS12
+    key-store-password: okestro2021
+    key-alias: flowerduet
+  servlet:
+    context-path: /openstack/api
+
+spring:
+  profiles:
+    active: @activeProfile@
+  messages:
+    always-use-message-format: false
+    basename: message/messages
+    encoding: UTF-8
+  # data source
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: ${iaas.db.url}
+    username: ${iaas.db.username}
+    password: ${iaas.db.password}
+  # jpa
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: com.okestro.symphony.dashboard.cmm.jpa.CustomPhysicalNamingStrategy
+    open-in-view: false
+    generate-ddl: false
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  servlet:
+    multipart:
+      max-request-size: 5GB
+      max-file-size: 5GB
+      enabled: true
+  redis:
+    #    host: 36.243.190.245
+    host: ${iaas.redis.host}
+    #    port: 6379
+    port: ${iaas.redis.port}
+platform:
+  audit:
+    admin:
+      api:
+        url: http://adminapi-dev.cloudplatform.flowerduet.co.kr:18080/admin/api
+
+# 콘솔 창에 출력되는 로깅 메세지를 색으로 구분해서 출력
+#  output:
+#    ansi:
+#      enabled: always
+
+# log
+logging:
+  level:
+#    org.springframework: debug
+    iaas: debug
+    org:
+      springframework: debug
+      hibernate:
+        type:
+          descriptor:
+            sql: trace

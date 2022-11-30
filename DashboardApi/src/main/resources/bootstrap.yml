@@ -1,0 +1,16 @@
+spring:
+#  profiles:
+#    active: @activeProfile@
+  cloud:
+    vault:
+      host: 36.243.190.245
+      port: 8200
+      scheme: http
+      authentication: TOKEN
+      token: s.Mk9pBZZYnOsXClMqDRaAoBwF
+      kv:
+        enabled: false
+        application-name: oper/portal/iaas
+      enabled: false
+      discovery:
+        enabled: false

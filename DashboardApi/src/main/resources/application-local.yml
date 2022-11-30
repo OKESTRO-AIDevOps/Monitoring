@@ -1,0 +1,84 @@
+# server port
+server:
+  port: 8081
+  servlet:
+    context-path: /symphony/dashboard/api
+
+management:
+  health:
+    elasticsearch:
+      enabled: false
+
+spring:
+  profiles:
+    active: @activeProfile@
+  elasticsearch:
+    rest:
+      uris: 36.243.190.71:9200
+  messages:
+    always-use-message-format: false
+    basename: message/messages
+    encoding: UTF-8
+  # data source
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: ${iaas.db.url}
+    username: ${iaas.db.username}
+    password: ${iaas.db.password}
+  # jpa
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: com.okestro.symphony.dashboard.cmm.jpa.CustomPhysicalNamingStrategy
+    open-in-view: false
+    generate-ddl: false
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  servlet:
+    multipart:
+      max-request-size: 5GB
+      max-file-size: 5GB
+      enabled: true
+  redis:
+    #    host: 36.243.190.245
+    host: ${iaas.redis.host}
+    #    port: 6379
+    port: ${iaas.redis.port}
+platform:
+  audit:
+    admin:
+      api:
+        url: http://localhost:8080/admin/api
+
+# 콘솔 창에 출력되는 로깅 메세지를 색으로 구분해서 출력
+#  output:
+#    ansi:
+#      enabled: always
+
+# log
+logging:
+  level:
+#    org.springframework: debug
+    iaas: debug
+    org:
+      springframework: debug
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
+
+
+config:
+  default:
+    #        index: test_beats_metric_2021_02_02
+    index: hab-metric-demo24-1-2021.02.09
+  openstack:
+    domain: Default
+    user: admin_test
+    passwd: okestro2018
+    endpoint: http://100.0.0.132:5000/v3

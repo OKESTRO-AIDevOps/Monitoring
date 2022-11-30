@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+    <property name="logHome" value="/Users/kimyoongwon/logDir/DashboardAPI" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- fileAppender설정 -->
+    <appender name="DailyRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logHome}/dashboard_api_log_%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <!--
+                maxHistory를 30일로 설정
+                30일이 지난 로그들은 삭제
+            -->
+
+            <maxHistory>30</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>15MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <!--
+                %d{yyyyMMdd HH:mm:ss.SSS} - 날짜
+                %thread - 어떤 스레드에서 실행한 것인지
+                %-5level - 로깅 레벨
+                %logger{35} - 어떤 클래스의 로거가 실행된 건지
+                %msg - 메세지
+                %n - 줄바꿈
+            -->
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} %thread %-5level %logger - %m%n
+            </Pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.okestro.symphony.dashboard" level="debug" additivity="false"/>
+    <root level="debug">
+        <appender-ref ref="consoleAppender"/>
+        <appender-ref ref="DailyRollingFileAppender" />
+    </root>
+
+</configuration>
