@@ -45,3 +45,42 @@ class Query:
             return date_range
         
         self.body["query"]["range"] = date_range
+
+
+    def add_aggregation(self,
+                        main: str=None,
+                        main_field: str=None,
+                        main_agg_size: int=None,
+                        sub: dict=None,
+                        sub_agg_size: int=None,
+                        interval: str="5m",
+                        percents: list=None
+                        ) -> None:
+        self.body["aggs"] = {}
+
+        self.body["aggs"]["main_aggs"] = {main: {"field": main_field}}
+
+        if main == "date_histogram":
+            self.body["aggs"]["main_aggs"][main]["fixed_interval"] = interval
+        
+        if main_agg_size:
+            self.body["aggs"]["main_aggs"][main]["size"] = main_agg_size
+
+        if sub:
+            tmp = {}
+            for agg, _type in sub.items():
+                tmp[agg+'_'+_type] = {sub[agg]:{"field":agg}}
+
+                if sub_agg_size:
+                    tmp[agg+'_'+_type][sub[agg]]["size"] = sub_agg_size
+                
+                if sub[agg] == 'percentiles':
+                    tmp[agg+'_'+_type][sub[agg]]["percents"] = percents
+
+            self.body["aggs"]["main_aggs"]["aggs"] = tmp
+    
+
+    def add_size(self,
+                size: int
+                ) -> None:
+        self.body["size"] = size
