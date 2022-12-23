@@ -84,3 +84,45 @@ class Query:
                 size: int
                 ) -> None:
         self.body["size"] = size
+
+
+    def add_option(self,
+                option: dict
+                ) -> None:
+        self.body.update(option)
+
+
+    def add_source(self,
+                source: list
+                ) -> None:
+        self.body = dict()
+        self.body["_source"] = source
+        self.body["query"] = dict()
+
+
+    def sort(self,
+            field: str,
+            by: str
+            ) -> None:
+        if not self.body.get("sort"):
+            self.body["sort"] = [{}]
+        self.body["sort"][0][field] = {"order" : by}
+
+
+    def remove_bool(self,
+                    type: str=None
+                    ) -> None:
+        try:
+            if type:
+                del self.body["query"]["bool"][type]
+            else:
+                del self.body["query"]["bool"]
+        except KeyError:
+            pass
+
+
+    def remove_aggregation(self) -> None:
+        try:
+            del self.body["aggs"]
+        except KeyError:
+            pass
