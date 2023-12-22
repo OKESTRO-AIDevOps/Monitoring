@@ -1,6 +1,7 @@
 import logging
 import os
 import sys
+import time
 
 class StandardLog:
     def __init__(self):
@@ -17,8 +18,9 @@ class StandardLog:
         self.func_name = None
 
     def set_filename(self):
-        self.file_name = sys._getframe(3).f_globals['__file__']
-        self.func_name = sys._getframe(2).f_code.co_name
+        frame = sys._getframe(3)
+        self.file_name = frame.f_globals['__file__']
+        self.func_name = frame.f_code.co_name
 
     def log_handle(self):
         self.stream_handler.setFormatter(self.formatter)
